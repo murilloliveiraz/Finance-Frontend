@@ -1,3 +1,4 @@
+import { LoginService } from './../../services/login.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
@@ -17,7 +18,7 @@ import { CommonModule } from '@angular/common';
 })
 
 export class LoginComponent {
-  constructor(public formBuilder: FormBuilder, private router: Router){}
+  constructor(public formBuilder: FormBuilder, private router: Router, private loginService: LoginService){}
   loginForm: FormGroup;
 
   ngOnInit(): void {
@@ -34,6 +35,15 @@ export class LoginComponent {
   }
 
   loginUser() {
-    alert("OK");
+    const observer = {
+      next: (token: string) => {
+        alert(token);
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err: any) => {
+        alert('Ocorreu um erro');
+      }
+    };
+    this.loginService.login(this.dadosForm["email"].value, this.dadosForm["senha"].value).subscribe(observer);
   }
 }
