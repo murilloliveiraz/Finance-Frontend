@@ -19,4 +19,16 @@ export const routes: Routes = [
     path: 'dashboard',
     loadChildren: () => import('./pages/dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES),
   },
+  {
+    path: 'sistema',
+    loadChildren: () => import('./pages/sistema/sistema.routes').then(m => m.SISTEMA_ROUTES),
+  },
+  {
+    path: 'categoria',
+    loadChildren: () => import('./pages/categoria/categoria.routes').then(m => m.CATEGORIA_ROUTES),
+  },
+  {
+    path: 'transacoes',
+    loadChildren: () => import('./pages/transacoes/transacoes.routes').then(m => m.TRANSACOES_ROUTES),
+  },
 ];

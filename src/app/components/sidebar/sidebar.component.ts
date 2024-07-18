@@ -34,7 +34,7 @@ export class SidebarComponent {
         break;
 
       case 4:
-        this.router.navigate(['/despesa']);
+        this.router.navigate(['/transacoes']);
         break;
 
       default:
