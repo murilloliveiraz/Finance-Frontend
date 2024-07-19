@@ -1,3 +1,4 @@
+import { AuthGuardService } from './pages/guard/auth-guard.service';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 
@@ -18,6 +19,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('./pages/dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES),
+    canActivate: [AuthGuardService]
   },
   {
     path: 'sistema',

@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { LoginService } from './../../services/login.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
@@ -18,7 +19,7 @@ import { CommonModule } from '@angular/common';
 })
 
 export class LoginComponent {
-  constructor(public formBuilder: FormBuilder, private router: Router, private loginService: LoginService){}
+  constructor(public formBuilder: FormBuilder, private router: Router, private loginService: LoginService, public authService: AuthService){}
   loginForm: FormGroup;
 
   ngOnInit(): void {
@@ -37,7 +38,8 @@ export class LoginComponent {
   loginUser() {
     const observer = {
       next: (token: string) => {
-        alert(token);
+        this.authService.setToken(token);
+        this.authService.UsuarioAutenticado(true);
         this.router.navigate(['/dashboard']);
       },
       error: (err: any) => {

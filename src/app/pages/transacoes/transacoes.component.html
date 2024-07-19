@@ -1,2 +1,67 @@
 <navbar></navbar>
 <sidebar></sidebar>
+
+<div class="container-base">
+  <div class="content-page">
+    <div class="card-header">
+      <div class="card-title">
+        Cadastro de Transações
+      </div>
+    </div>
+
+    <form class="form-page" [formGroup]="transacoesForm" (submit)="enviar()">
+
+      <div class="row">
+          <div class="group-row">
+              <label>Nome</label>
+              <input type="text" name="name" id="name" placeholder="Nome" formControlName="name" required />
+              <label class="error-input" *ngIf="transacoesForm.get('name')?.errors?.['required'] &&
+              transacoesForm.get('name')?.touched">
+                  Campo Obrigatório!
+              </label>
+          </div>
+      </div>
+      <div class="row">
+        <div class="group-row">
+          <label>Valor</label>
+          <input type="number" name="valor" id="valor" placeholder="Valor" formControlName="valor" required />
+              <label class="error-input" *ngIf="transacoesForm.get('valor')?.errors?.['required'] &&
+              transacoesForm.get('valor')?.touched">
+                  Campo Obrigatório!
+              </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="group-row">
+          <label>Data</label>
+          <input type="date" name="data" id="data" placeholder="Data" formControlName="data" required />
+              <label class="error-input" *ngIf="transacoesForm.get('data')?.errors?.['required'] &&
+              transacoesForm.get('data')?.touched">
+                  Campo Obrigatório!
+              </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="group-row">
+            <label>Sistemas</label>
+           <ng-select class="select-padrao" [(ngModel)]="sistemaSelect" [items]="listSistemas"  bindLabel="name"  [multiple]="false" [clearable]="false"
+           [searchable]="false" [ngModelOptions]="{standalone: true}"></ng-select>
+        </div>
+    </div>
+      <div class="row">
+        <div class="group-row">
+            <label>Categoria</label>
+           <ng-select class="select-padrao" [(ngModel)]="categoriaSelect" [items]="listCategorias"  bindLabel="name"  [multiple]="false" [clearable]="false"
+           [searchable]="false" [ngModelOptions]="{standalone: true}"></ng-select>
+        </div>
+    </div>
+
+      <div class="row">
+          <div class="group-row">
+              <input type="submit" value="Salvar" class="btn-primary" />
+          </div>
+      </div>
+
+  </form>
+  </div>
+</div>
