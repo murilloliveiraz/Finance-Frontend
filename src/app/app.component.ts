@@ -11,8 +11,8 @@ const RxJS = [LoaderMiddleware, HTTPStatus];
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, FormsModule, ReactiveFormsModule, NgxSpinnerModule],
-  providers: [AuthGuardService, RxJS, {provide: HTTP_INTERCEPTORS, useClass: LoaderMiddleware, multi: true}],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  //providers: [AuthGuardService, RxJS, {provide: HTTP_INTERCEPTORS, useClass: LoaderMiddleware, multi: true}],
+  //schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
