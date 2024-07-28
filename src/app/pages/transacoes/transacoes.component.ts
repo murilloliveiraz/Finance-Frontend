@@ -1,25 +1,12 @@
 import { Component } from '@angular/core';
 import { MenuService } from '../../services/menu.service';
-import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../../components/sidebar/sidebar.component';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectModel } from '../../models/SelectModel';
-import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-transacoes',
-  standalone: true,
-  imports: [
-    NavbarComponent,
-    CommonModule,
-    SidebarComponent,
-    ReactiveFormsModule,
-    FormsModule,
-    NgSelectModule
-  ],
   templateUrl: './transacoes.component.html',
-  styleUrl: './transacoes.component.scss'
+  styleUrls: ['./transacoes.component.scss']
 })
 export class TransacoesComponent {
   constructor(public menuService: MenuService, public formBuilder: FormBuilder) {

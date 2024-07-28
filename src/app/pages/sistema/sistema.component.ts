@@ -1,24 +1,20 @@
+import { SistemaService } from './../../services/Sistema.service';
 import { Component } from '@angular/core';
 import { MenuService } from '../../services/menu.service';
-import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../../components/sidebar/sidebar.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SistemaFinanceiro } from '../../models/SistemaFinanceiro';
 
 @Component({
   selector: 'app-sistema',
-  standalone: true,
-  imports: [
-    NavbarComponent,
-    CommonModule,
-    SidebarComponent,
-    ReactiveFormsModule
-  ],
   templateUrl: './sistema.component.html',
-  styleUrl: './sistema.component.scss'
+  styleUrls: ['./sistema.component.scss']
 })
 export class SistemaComponent {
-  constructor(public menuService: MenuService, public formBuilder: FormBuilder){}
+  constructor(
+    public menuService: MenuService,
+    public formBuilder: FormBuilder,
+    public sistemaService: SistemaService
+  ){}
 
   sistemaForm: FormGroup;
 
@@ -39,6 +35,28 @@ export class SistemaComponent {
   enviar()
   {
     var dados = this.dadosForm();
-    alert(dados["name"].value)
+
+    let item = new SistemaFinanceiro();
+    item.Name = dados["name"].value;
+    item.Id =0;
+    item.Month=0;
+    item.Year=0;
+    item.Closingdate=0;
+    item.GenerateExpensesCopy=true;
+    item.CopyMonth=0;
+    item.CopyYear=0;
+
+    this.sistemaService.AdicionarSistemaFinanceiro(item)
+      .subscribe((reponse: SistemaFinanceiro) => {
+        this.sistemaForm.reset();
+
+        this.sistemaService.CadastrarUsuarioNoSistema(reponse.Id, "murillo@gmail.com")
+          .subscribe((response: any) => {
+            debugger
+          }),
+          (error) => console.error(error), () => {}
+      }),
+      (error) => console.error(error), () => {}
+
   }
 }
