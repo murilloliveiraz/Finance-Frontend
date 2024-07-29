@@ -7,7 +7,7 @@ export class SistemaFinanceiro {
   GenerateExpensesCopy: boolean;
   CopyMonth: number;
   CopyYear: number;
-  NomePropriedade:string="";
-  mensagem:string="";
-  notificacoes:[];
+  PropName:string="";
+  Message:string="";
+  notifications:[];
 }

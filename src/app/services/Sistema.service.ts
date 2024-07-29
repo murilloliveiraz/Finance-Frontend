@@ -21,6 +21,6 @@ export class SistemaService {
   }
 
   CadastrarUsuarioNoSistema(idSistema: number ,emailUsuario: string){
-    return this.httpClient.post<any>(`${this.baseURL}/CadastrarUsuarioNoSistema?idSistemma=${idSistema}&emailUsuario=${emailUsuario}`, null);
+    return this.httpClient.post<any>(`${this.baseURL}/CadastrarUsuarioNoSistema?idSistema=${idSistema}&emailUsuario=${emailUsuario}`, null);
   }
 }

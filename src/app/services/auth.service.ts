@@ -49,6 +49,16 @@ export class AuthService {
         sessionStorage.clear();
     }
 
+    setEmailUser(email: string) {
+      localStorage.setItem("emailUser", email);
+    }
 
-
+    getEmailUser(){
+      var emailUserLogado = localStorage.getItem("emailUser");
+      if(emailUserLogado){
+        return emailUserLogado;
+      }
+      this.limparDadosUsuario();
+      return "";
+    }
 }

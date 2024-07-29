@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { MenuService } from '../../services/menu.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SistemaFinanceiro } from '../../models/SistemaFinanceiro';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-sistema',
@@ -13,7 +14,8 @@ export class SistemaComponent {
   constructor(
     public menuService: MenuService,
     public formBuilder: FormBuilder,
-    public sistemaService: SistemaService
+    public sistemaService: SistemaService,
+    public authService: AuthService
   ){}
 
   sistemaForm: FormGroup;
@@ -47,12 +49,12 @@ export class SistemaComponent {
     item.CopyYear=0;
 
     this.sistemaService.AdicionarSistemaFinanceiro(item)
-      .subscribe((reponse: SistemaFinanceiro) => {
+      .subscribe((response: any) => {
         this.sistemaForm.reset();
-
-        this.sistemaService.CadastrarUsuarioNoSistema(reponse.Id, "murillo@gmail.com")
+        console.log(response)
+        this.sistemaService.CadastrarUsuarioNoSistema(response.result.id, this.authService.getEmailUser())
           .subscribe((response: any) => {
-            debugger
+            console.log(this.authService.getEmailUser())
           }),
           (error) => console.error(error), () => {}
       }),
