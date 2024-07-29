@@ -41,20 +41,34 @@
               </label>
         </div>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="group-row">
             <label>Sistemas</label>
            <ng-select class="select-padrao" [(ngModel)]="sistemaSelect" [items]="listSistemas"  bindLabel="name"  [multiple]="false" [clearable]="false"
-           [searchable]="false" [ngModelOptions]="{standalone: true}"></ng-select>
+           [searchable]="false" formControlName="sistemaSelect"></ng-select>
         </div>
-    </div>
+    </div> -->
       <div class="row">
         <div class="group-row">
             <label>Categoria</label>
            <ng-select class="select-padrao" [(ngModel)]="categoriaSelect" [items]="listCategorias"  bindLabel="name"  [multiple]="false" [clearable]="false"
-           [searchable]="false" [ngModelOptions]="{standalone: true}"></ng-select>
+           [searchable]="false" formControlName="categoriaSelect"></ng-select>
         </div>
     </div>
+    <div class="row">
+      <div class="group-row">
+
+              <mat-slide-toggle
+                  class="group-slide"
+                  [color]="color"
+                  [checked]="checked"
+                  [disabled]="disabled"
+                  (change)="handleChangePago($event)">
+              Pago?
+              </mat-slide-toggle>
+
+      </div>
+  </div>
 
       <div class="row">
           <div class="group-row">

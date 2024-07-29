@@ -10,7 +10,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { AppRoutingModule } from './app.routing.module';
 import { HTTPStatus, LoaderMiddleware } from './middleware/loader.middleware';
 import { AuthGuard } from './pages/guard/auth-guard.service';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const RxJS = [LoaderMiddleware, HTTPStatus];
 
@@ -32,7 +32,8 @@ const RxJS = [LoaderMiddleware, HTTPStatus];
     FormsModule,
     ReactiveFormsModule,
 
-    NgxSpinnerModule
+    NgxSpinnerModule,
+     BrowserAnimationsModule,
   ],
   providers: [
     AuthGuard,

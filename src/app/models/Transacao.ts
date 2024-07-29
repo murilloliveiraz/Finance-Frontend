@@ -13,4 +13,7 @@ export class Transacao
   AlreadyPaid: boolean;
   Overdue: boolean;
   IdCategory: number;
+  PropName:string="";
+  Message:string="";
+  notifications:[];
 }

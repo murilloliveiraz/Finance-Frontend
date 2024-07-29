@@ -1,3 +1,4 @@
+import { CategoriaService } from './../../services/Categoria.service';
 import { SistemaService } from './../../services/Sistema.service';
 import { AuthService } from './../../services/auth.service';
 import { Component } from '@angular/core';
@@ -5,6 +6,7 @@ import { MenuService } from '../../services/menu.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectModel } from '../../models/SelectModel';
 import { SistemaFinanceiro } from 'src/app/models/SistemaFinanceiro';
+import { Categoria } from 'src/app/models/Categoria';
 
 @Component({
   selector: 'app-categoria',
@@ -13,7 +15,13 @@ import { SistemaFinanceiro } from 'src/app/models/SistemaFinanceiro';
 })
 export class CategoriaComponent {
 
-  constructor(public menuService: MenuService, public formBuilder: FormBuilder, public authService: AuthService, public sistemaService: SistemaService) {
+  constructor(
+    public menuService: MenuService,
+    public formBuilder: FormBuilder,
+    public authService: AuthService,
+    public sistemaService: SistemaService,
+    public categoriaService: CategoriaService
+  ) {
   }
 
   listSistemas = new Array<SelectModel>();
@@ -27,7 +35,8 @@ export class CategoriaComponent {
     this.categoriaForm = this.formBuilder.group
       (
         {
-          name: ['', [Validators.required]]
+          name: ['', [Validators.required]],
+          sistemaSelect: ['', Validators.required]
         }
       )
 
@@ -40,10 +49,18 @@ export class CategoriaComponent {
   }
 
   enviar() {
-    debugger
     var dados = this.dadosForm();
 
-    alert(dados["name"].value)
+    let item = new Categoria();
+    item.Name = dados["name"].value;
+    item.Id = 0;
+    item.IdSystem = parseInt(this.sistemaSelect.id);
+
+    this.categoriaService.AdicionarCategoria(item)
+      .subscribe((response: Categoria) => {
+        this.categoriaForm.reset();
+      }),
+      (error) => console.error(error), () => {}
   }
 
   ListaSistemasUsuario() {

@@ -6,8 +6,7 @@ import { NavbarModule } from '../../components/navbar/navbar.module';
 import { SidebarModule } from '../../components/sidebar/sidebar.module';
 import { TransacoesComponent } from './transacoes.component';
 import { TransacoesRoutingModule } from './transacoes-routing.module';
-
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule(
     {
@@ -20,8 +19,9 @@ import { TransacoesRoutingModule } from './transacoes-routing.module';
             SidebarModule,
             FormsModule,
             ReactiveFormsModule,
-            NgSelectModule
-        ]
+            NgSelectModule,
+            MatSlideToggleModule
+        ],
     }
 )
 
