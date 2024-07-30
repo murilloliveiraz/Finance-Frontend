@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { HTTPStatus, LoaderMiddleware } from './middleware/loader.middleware';
 import { AuthGuard } from './pages/guard/auth-guard.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
 
 const RxJS = [LoaderMiddleware, HTTPStatus];
 
@@ -34,6 +35,7 @@ const RxJS = [LoaderMiddleware, HTTPStatus];
 
     NgxSpinnerModule,
     BrowserAnimationsModule,
+    MatIconModule
   ],
   providers: [
     AuthGuard,
@@ -43,7 +45,9 @@ const RxJS = [LoaderMiddleware, HTTPStatus];
   bootstrap: [AppComponent],
   exports:
   [
-    CommonModule
+    CommonModule,
+    MatIconModule,
+    NgxSpinnerModule,
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })

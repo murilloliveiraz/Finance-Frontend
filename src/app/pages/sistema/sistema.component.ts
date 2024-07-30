@@ -43,6 +43,23 @@ export class SistemaComponent {
     return result;
   }
 
+  cadastro()
+  {
+    this.tipoTela = 2;
+    this.sistemaForm.reset();
+  }
+
+  mudarItemsPorPage() {
+    this.page = 1
+    this.config.currentPage = this.page;
+    this.config.itemsPerPage = this.itemsPorPagina;
+  }
+
+  mudarPage(event: any) {
+    this.page = event;
+    this.config.currentPage = this.page;
+  }
+
   ListaSistemasUsuario() {
     this.tipoTela = 1;
 
@@ -76,23 +93,6 @@ export class SistemaComponent {
     )
   }
 
-  cadastro()
-  {
-    this.tipoTela = 2;
-    this.sistemaForm.reset();
-  }
-
-  mudarItemsPorPage() {
-    this.page = 1
-    this.config.currentPage = this.page;
-    this.config.itemsPerPage = this.itemsPorPagina;
-  }
-
-  mudarPage(event: any) {
-    this.page = event;
-    this.config.currentPage = this.page;
-  }
-
 
   dadosForm(){
     return this.sistemaForm.controls;
@@ -115,10 +115,9 @@ export class SistemaComponent {
     this.sistemaService.AdicionarSistemaFinanceiro(item)
       .subscribe((response: any) => {
         this.sistemaForm.reset();
-        console.log(response)
         this.sistemaService.CadastrarUsuarioNoSistema(response.result.id, this.authService.getEmailUser())
           .subscribe((response: any) => {
-            console.log(this.authService.getEmailUser())
+            this.ListaSistemasUsuario();
           }),
           (error) => console.error(error), () => {}
       }),

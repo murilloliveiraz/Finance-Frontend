@@ -15,4 +15,8 @@ export class TransacoesService {
   AdicionarDespesa(transacao: Transacao){
     return this.httpClient.post<Transacao>(`${this.baseURL}/AdicionarDespesa`, transacao);
   }
+
+  ListarDespesasUsuario(emailUsuario: string){
+    return this.httpClient.get(`${this.baseURL}/ListarDespesasUsuario?emailUsuario=${emailUsuario}`);
+  }
 }

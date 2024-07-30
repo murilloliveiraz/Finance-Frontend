@@ -4,7 +4,6 @@ import { MenuService } from '../../services/menu.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectModel } from '../../models/SelectModel';
 import { AuthService } from 'src/app/services/auth.service';
-import { SistemaService } from 'src/app/services/Sistema.service';
 import { CategoriaService } from 'src/app/services/Categoria.service';
 import { Transacao } from 'src/app/models/Transacao';
 import { ThemePalette } from '@angular/material/core';
@@ -15,6 +14,68 @@ import { ThemePalette } from '@angular/material/core';
   styleUrls: ['./transacoes.component.scss']
 })
 export class TransacoesComponent {
+
+  tipoTela: number = 1;// 1 listagem, 2 cadastro, 3 edição
+  tableListDespesas: Array<any>;
+  id: string;
+
+  page: number = 1;
+  config: any;
+  paginacao: boolean = true;
+  itemsPorPagina: number = 10
+
+  configpage() {
+    this.id = this.gerarIdParaConfigDePaginacao();
+
+    this.config = {
+      id: this.id,
+      currentPage: this.page,
+      itemsPerPage: this.itemsPorPagina
+
+    };
+  }
+
+  gerarIdParaConfigDePaginacao() {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < 10; i++) {
+      result += characters.charAt(Math.floor(Math.random() *
+        charactersLength));
+    }
+    return result;
+  }
+
+  cadastro()
+  {
+    this.tipoTela = 2;
+    this.transacoesForm.reset();
+  }
+
+  mudarItemsPorPage() {
+    this.page = 1
+    this.config.currentPage = this.page;
+    this.config.itemsPerPage = this.itemsPorPagina;
+  }
+
+  mudarPage(event: any) {
+    this.page = event;
+    this.config.currentPage = this.page;
+  }
+
+  ListaDespesasUsuario() {
+    this.tipoTela = 1;
+
+    this.transacoesService.ListarDespesasUsuario(this.authService.getEmailUser())
+      .subscribe((response: Array<Transacao>) => {
+
+        this.tableListDespesas = response;
+      }, (error) => console.error(error),
+        () => { })
+
+  }
+
+
   constructor(
     public menuService: MenuService,
     public formBuilder: FormBuilder,
@@ -41,6 +102,7 @@ export class TransacoesComponent {
   ngOnInit(){
     this.menuService.menuSelecionado = 4;
 
+    this.configpage();
     this.transacoesForm = this.formBuilder.group
       (
         {
@@ -52,6 +114,7 @@ export class TransacoesComponent {
         }
       )
 
+    this.ListaDespesasUsuario();
     this.ListaCategoriasUsuario();
   }
 
@@ -69,7 +132,6 @@ export class TransacoesComponent {
 
     let item = new Transacao();
     item.Name = dados["name"].value;
-    item.Id = 0;
     item.Value = dados["valor"].value;
     item.DueDate = dados["data"].value;
     item.AlreadyPaid = this.checked;
@@ -78,6 +140,7 @@ export class TransacoesComponent {
     this.transacoesService.AdicionarDespesa(item)
       .subscribe((response: Transacao) => {
         this.transacoesForm.reset();
+        this.ListaDespesasUsuario();
       }),
       (error) => console.error(error), () => {}
   }

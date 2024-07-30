@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NavbarModule } from '../../components/navbar/navbar.module';
 import { SidebarModule } from '../../components/sidebar/sidebar.module';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -20,7 +22,10 @@ import { SidebarModule } from '../../components/sidebar/sidebar.module';
             SidebarModule,
             FormsModule,
             ReactiveFormsModule,
-            NgSelectModule
+            NgSelectModule,
+            ReactiveFormsModule,
+            NgxPaginationModule,
+            MatIconModule
         ]
     }
 )

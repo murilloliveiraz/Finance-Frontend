@@ -7,6 +7,8 @@ import { SidebarModule } from '../../components/sidebar/sidebar.module';
 import { TransacoesComponent } from './transacoes.component';
 import { TransacoesRoutingModule } from './transacoes-routing.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatIconModule } from '@angular/material/icon';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule(
     {
@@ -20,7 +22,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
             FormsModule,
             ReactiveFormsModule,
             NgSelectModule,
-            MatSlideToggleModule
+            MatSlideToggleModule,
+            MatIconModule,
+            NgxPaginationModule
         ],
     }
 )
