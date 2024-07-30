@@ -2,36 +2,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat.core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$Finance-Frontend-primary: mat.define-palette(mat.$indigo-palette);
-$Finance-Frontend-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$Finance-Frontend-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$Finance-Frontend-theme: mat.define-light-theme((
-  color: (
-    primary: $Finance-Frontend-primary,
-    accent: $Finance-Frontend-accent,
-    warn: $Finance-Frontend-warn,
-  )
-));
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($Finance-Frontend-theme);
 
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -107,6 +78,15 @@ label {
         font-size: 16px;
         font-weight: 500;
       }
+
+      .card-menu {
+        color: #fff;
+        padding-left: 16px;
+        font-size: 14px;
+        font-weight: 400;
+        text-decoration: underline;
+        cursor: pointer;
+      }
     }
 
     .form-page {
@@ -154,5 +134,122 @@ label {
   align-items: center;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// Inclusão Tabela
+table {
+  width: 100%;
+
+  thead {
+    background: #e6e6e6;
+    color: #636363;
+    /* font-family: Sarala; */
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    height: 60px;
+
+    td {
+      padding: 0px 0px 8px 16px;
+    }
+  }
+
+  tbody {
+    td {
+      padding: 0px 0 0 16px;
+      color: #000;
+      font-family: "Poppins";
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      cursor: pointer;
+    }
+  }
+}
+
+.linha-table {
+  border-radius: 8px 8px 0px 0px;
+  height: 56px;
+}
+
+.linha-branca {
+  border-radius: 8px 8px 0px 0px;
+  background: #fff;
+}
+
+.linha-cinza {
+  background: #f9f7f7;
+}
+
+.header-info-2 {
+  border-bottom: 1px solid #f0f0f0;
+
+  @media screen and (max-width: 1020px) {
+    overflow: auto;
+  }
+}
+
+.cabec-buscar {
+  height: 55px;
+  border-radius: 8px 8px 0px 0px;
+  border: 1px solid #e6e6e6;
+  background: #e6e6e6;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 21px 0 0;
+
+  div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  div input {
+    height: 25px;
+    padding-right: 30px;
+    border-radius: 59px;
+    background: #fff;
+    width: 129px;
+    height: 24px;
+    border: none;
+    padding: 0 27px 0 8px;
+  }
+
+  div i {
+    font-size: 16px;
+    margin-left: -25px;
+    cursor: pointer;
+  }
+}
+
+.tabela-footer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  // margin: 12px;
+  align-items: center;
+}
+
+.mostrar {
+  margin-left: 24px;
+  margin-right: 16px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #585656;
+}
+
+.container-pagination {
+  margin-left: auto;
+}
+
+::ng-deep .ngx-pagination .current {
+  padding: 0.1875rem 0.525rem !important;
+  background: linear-gradient(357.83deg, #3800b0 83.6%, #6c23e2 98.76%) !important;
+  color: #fefefe !important;
+  cursor: default !important;
+  border-radius: 5px !important;
+}

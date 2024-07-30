@@ -33,7 +33,7 @@ const RxJS = [LoaderMiddleware, HTTPStatus];
     ReactiveFormsModule,
 
     NgxSpinnerModule,
-     BrowserAnimationsModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     AuthGuard,

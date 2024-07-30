@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
 import { MenuService } from '../../services/menu.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectModel } from '../../models/SelectModel';
-import { SistemaFinanceiro } from 'src/app/models/SistemaFinanceiro';
 import { Categoria } from 'src/app/models/Categoria';
 
 @Component({
