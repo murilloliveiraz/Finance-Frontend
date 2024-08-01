@@ -9,5 +9,5 @@ export class SistemaFinanceiro {
   CopyYear: number;
   PropName:string="";
   Message:string="";
-  notifications:[];
+  notifications:[] = [];
 }

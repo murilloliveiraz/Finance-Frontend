@@ -102,26 +102,61 @@ export class SistemaComponent {
   {
     var dados = this.dadosForm();
 
-    let item = new SistemaFinanceiro();
-    item.Name = dados["name"].value;
-    item.Id =0;
-    item.Month=0;
-    item.Year=0;
-    item.Closingdate=0;
-    item.GenerateExpensesCopy=true;
-    item.CopyMonth=0;
-    item.CopyYear=0;
+    if (this.itemEdicao) {
+      this.itemEdicao.Name = dados["name"].value;
+      this.itemEdicao.PropName="";
+      this.itemEdicao.Message="";
+      this.itemEdicao.notifications=[];
 
-    this.sistemaService.AdicionarSistemaFinanceiro(item)
-      .subscribe((response: any) => {
+      this.sistemaService.AtualizarSistemaFinanceiro(this.itemEdicao)
+      .subscribe((response: SistemaFinanceiro) => {
+
         this.sistemaForm.reset();
-        this.sistemaService.CadastrarUsuarioNoSistema(response.result.id, this.authService.getEmailUser())
+        this.ListaSistemasUsuario();
+
+      }, (error) => console.error(error),
+        () => { })
+    } else {
+
+      let item = new SistemaFinanceiro();
+      item.Name = dados["name"].value;
+      item.Id =0;
+      item.Month=0;
+      item.Year=0;
+      item.Closingdate=0;
+      item.GenerateExpensesCopy=true;
+      item.CopyMonth=0;
+      item.CopyYear=0;
+
+      this.sistemaService.AdicionarSistemaFinanceiro(item)
+      .subscribe((response: any) => {
+          this.sistemaForm.reset();
+          this.sistemaService.CadastrarUsuarioNoSistema(response.result.id, this.authService.getEmailUser())
           .subscribe((response: any) => {
             this.ListaSistemasUsuario();
           }),
           (error) => console.error(error), () => {}
-      }),
-      (error) => console.error(error), () => {}
-
+        }),
+        (error) => console.error(error), () => {}
+    }
   }
+
+   itemEdicao: any;
+
+   edicao(id: number) {
+    this.sistemaService.ObterSistemaFinanceiro(id)
+      .subscribe((response: SistemaFinanceiro) => {
+        if (response){
+          this.itemEdicao = response;
+          this.tipoTela = 2;
+
+          var dados = this.dadosForm();
+
+          dados["name"].setValue(this.itemEdicao.name);
+        }
+      },
+      (error) => console.error(error),
+        () => {}
+      )
+   }
 }
