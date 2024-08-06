@@ -19,4 +19,12 @@ export class TransacoesService {
   ListarDespesasUsuario(emailUsuario: string){
     return this.httpClient.get(`${this.baseURL}/ListarDespesasUsuario?emailUsuario=${emailUsuario}`);
   }
+
+  ObterDespesa(id: number){
+    return this.httpClient.get(`${this.baseURL}/ObterDespesa?id=${id}`);
+  }
+
+  AtualizarDespesa(despesa: Transacao){
+    return this.httpClient.put<Transacao>(`${this.baseURL}/AtualizarDespesa`, despesa);
+  }
 }

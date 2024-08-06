@@ -1,3 +1,4 @@
+import { SistemaService } from './../../services/Sistema.service';
 import { TransacoesService } from './../../services/Transacoes.service';
 import { Component } from '@angular/core';
 import { MenuService } from '../../services/menu.service';
@@ -81,7 +82,8 @@ export class TransacoesComponent {
     public formBuilder: FormBuilder,
     public authService: AuthService,
     public categoriaService: CategoriaService,
-    public transacoesService: TransacoesService
+    public transacoesService: TransacoesService,
+    public sistemaService: SistemaService
   ) {
   }
 
@@ -118,7 +120,7 @@ export class TransacoesComponent {
     this.ListaCategoriasUsuario();
   }
 
-  dadorForm() {
+  dadosForm() {
     return this.transacoesForm.controls;
   }
 
@@ -127,8 +129,27 @@ export class TransacoesComponent {
   }
 
   enviar() {
-    debugger
-    var dados = this.dadorForm();
+    var dados = this.dadosForm();
+
+    if (this.itemEdicao) {
+      this.itemEdicao.Name = dados["name"].value;
+      this.itemEdicao.Value = dados["valor"].value;
+      this.itemEdicao.DueDate = dados["data"].value;
+      this.itemEdicao.IdCategory = parseInt(this.categoriaSelect.id);
+      this.itemEdicao.PropName="";
+      this.itemEdicao.Message="";
+      this.itemEdicao.notifications=[];
+
+      this.transacoesService.AtualizarDespesa(this.itemEdicao)
+      .subscribe((response: Transacao) => {
+
+        this.transacoesForm.reset();
+        this.ListaDespesasUsuario();
+
+      }, (error) => console.error(error),
+        () => { })
+
+    } else {
 
     let item = new Transacao();
     item.Name = dados["name"].value;
@@ -143,23 +164,59 @@ export class TransacoesComponent {
         this.ListaDespesasUsuario();
       }),
       (error) => console.error(error), () => {}
+    }
   }
 
-  ListaCategoriasUsuario() {
+  ListaCategoriasUsuario(id: number = null) {
     this.categoriaService.ListarCategoriasUsuario(this.authService.getEmailUser())
       .subscribe((response: Array<any>) => {
         var listaCategoriasUsuario = [];
 
         response.forEach(x => {
-          console.log(x);
           var item = new SelectModel();
           item.id = x.id.toString();
           item.name = x.name;
 
           listaCategoriasUsuario.push(item);
+
+          if(id && id == x.id ){
+            this.categoriaSelect = item;
+          }
         });
 
         this.listCategorias = listaCategoriasUsuario;
       })
+  }
+
+  itemEdicao: any;
+
+  edicao(id: number) {
+   this.transacoesService.ObterDespesa(id)
+     .subscribe((response: any) => {
+       if (response){
+         this.itemEdicao = response;
+         this.tipoTela = 2;
+         console.log(response)
+         var dados = this.dadosForm();
+
+         dados["name"].setValue(this.itemEdicao.name);
+         dados["valor"].setValue(this.itemEdicao.value);
+         var dateToString = response.dueDate.toString();
+          var dateFull = dateToString.split('-');
+          var dayFull = dateFull[2].split('T');
+          var day = dayFull[0];
+          var month = dateFull[1];
+          var year = dateFull[0];
+
+          var dateInput = year + '-' + month + '-' + day;
+
+          dados["data"].setValue(dateInput);
+          this.ListaCategoriasUsuario(response.idCategory)
+          this.checked = response.alreadyPaid;
+       }
+     },
+     (error) => console.error(error),
+       () => {}
+     )
   }
 }

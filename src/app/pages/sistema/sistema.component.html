@@ -80,6 +80,74 @@
       </div>
 
       <div class="row">
+        <div class="group-row">
+            <label>Mes Sistema</label>
+            <input type="number" name="month" id="month" placeholder="Mes" formControlName="month" required />
+            <label class="error-input" *ngIf="sistemaForm.get('month')?.errors?.['required'] &&
+            sistemaForm.get('month')?.touched">
+                Campo Obrigatório!
+            </label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="group-row">
+            <label>Ano Sistema</label>
+            <input type="number" name="year" id="year" placeholder="Ano" formControlName="year" required />
+            <label class="error-input" *ngIf="sistemaForm.get('year')?.errors?.['required'] &&
+            sistemaForm.get('year')?.touched">
+                Campo Obrigatório!
+            </label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="group-row">
+            <label>Dia Inicio Mes</label>
+            <input type="number" name="closingdate" id="closingdate" placeholder="Data de Fechamento" formControlName="closingdate" required />
+           <label>Sistema só trabalha com dia 1</label>
+           <label class="error-input" *ngIf="sistemaForm.get('closingdate')?.errors?.['required'] &&
+            sistemaForm.get('closingdate')?.touched">
+                Campo Obrigatório!
+            </label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="group-row">
+            <label>Mes Copia</label>
+            <input type="number" name="copyMonth" id="copyMonth" placeholder="Mes de Cópia" formControlName="copyMonth" required />
+            <label class="error-input" *ngIf="sistemaForm.get('copyMonth')?.errors?.['required'] &&
+            sistemaForm.get('copyMonth')?.touched">
+                Campo Obrigatório!
+            </label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="group-row">
+            <label>Ano Copia</label>
+            <input type="number" name="copyYear" id="copyYear" placeholder="Ano Copia" formControlName="copyYear" required />
+            <label class="error-input" *ngIf="sistemaForm.get('copyYear')?.errors?.['required'] &&
+            sistemaForm.get('copyYear')?.touched">
+                Campo Obrigatório!
+            </label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="group-row">
+
+            <mat-slide-toggle class="group-slide" [color]="color" [checked]="checked" [disabled]="disabled"
+                (change)="handleChangePago($event)">
+                Gerar Copia das Despesas?
+            </mat-slide-toggle>
+
+        </div>
+    </div>
+
+
+      <div class="row">
           <div class="group-row">
               <input type="submit" value="Salvar" class="btn-primary" />
           </div>

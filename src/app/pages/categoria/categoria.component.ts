@@ -21,7 +21,7 @@ export class CategoriaComponent {
   page: number = 1;
   config: any;
   paginacao: boolean = true;
-  itemsPorPagina: number = 10
+  itemsPorPagina: number = 10;
 
   configpag() {
     this.id = this.gerarIdParaConfigDePaginacao();
@@ -63,6 +63,7 @@ export class CategoriaComponent {
   }
 
   ListaCategoriasUsuario() {
+    this.itemEdicao = null;
     this.tipoTela = 1;
 
     this.categoriaService.ListarCategoriasUsuario(this.authService.getEmailUser())
@@ -112,6 +113,22 @@ export class CategoriaComponent {
   enviar() {
     var dados = this.dadosForm();
 
+    if (this.itemEdicao) {
+      this.itemEdicao.Name = dados["name"].value;
+      this.itemEdicao.IdSystem = parseInt(this.sistemaSelect.id);
+      this.itemEdicao.PropName="";
+      this.itemEdicao.Message="";
+      this.itemEdicao.notifications=[];
+
+      this.categoriaService.AtualizarCategoria(this.itemEdicao)
+      .subscribe((response: Categoria) => {
+
+        this.categoriaForm.reset();
+        this.ListaCategoriasUsuario();
+
+      }, (error) => console.error(error),
+        () => { })
+    } else {
     let item = new Categoria();
     item.Name = dados["name"].value;
     item.Id = 0;
@@ -123,23 +140,46 @@ export class CategoriaComponent {
         this.ListaCategoriasUsuario();
       }),
       (error) => console.error(error), () => {}
+    }
   }
 
-  ListaSistemasUsuario() {
+  ListaSistemasUsuario(id: number = null) {
     this.sistemaService.ListaSistemasUsuario(this.authService.getEmailUser())
       .subscribe((response: Array<any>) => {
         var listaSistemaFinanceiro = [];
-
         response.forEach(x => {
-          console.log(x);
           var item = new SelectModel();
           item.id = x.id.toString();
           item.name = x.name;
 
           listaSistemaFinanceiro.push(item);
+
+          if(id && id == x.id ){
+            this.sistemaSelect = item;
+          }
         });
 
         this.listSistemas = listaSistemaFinanceiro;
       })
   }
+
+  itemEdicao: any;
+
+   edicao(id: number) {
+    this.categoriaService.ObterCategoria(id)
+      .subscribe((response: any) => {
+        if (response){
+          this.itemEdicao = response;
+          this.tipoTela = 2;
+
+          var dados = this.dadosForm();
+
+          dados["name"].setValue(this.itemEdicao.name);
+          this.ListaSistemasUsuario(response.idSystem)
+        }
+      },
+      (error) => console.error(error),
+        () => {}
+      )
+   }
 }

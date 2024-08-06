@@ -4,6 +4,7 @@ import { MenuService } from '../../services/menu.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SistemaFinanceiro } from '../../models/SistemaFinanceiro';
 import { AuthService } from 'src/app/services/auth.service';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-sistema',
@@ -20,6 +21,10 @@ export class SistemaComponent {
   config: any;
   paginacao: boolean = true;
   itemsPorPagina: number = 10
+  color: ThemePalette = 'accent';
+  disabled = false;
+  sistemaForm: FormGroup;
+  checked: boolean = false;
 
   configpag() {
     this.id = this.gerarIdParaConfigDePaginacao();
@@ -61,6 +66,7 @@ export class SistemaComponent {
   }
 
   ListaSistemasUsuario() {
+    this.itemEdicao = null;
     this.tipoTela = 1;
 
     this.sistemaService.ListaSistemasUsuario(this.authService.getEmailUser())
@@ -79,7 +85,6 @@ export class SistemaComponent {
     public authService: AuthService
   ){}
 
-  sistemaForm: FormGroup;
 
   ngOnInit(){
     this.menuService.menuSelecionado = 2;
@@ -88,11 +93,19 @@ export class SistemaComponent {
     this.ListaSistemasUsuario();
     this.sistemaForm = this.formBuilder.group(
       {
-        name: ['', [Validators.required]]
+        name: ['', [Validators.required]],
+        month: ['', [Validators.required]],
+        year: ['', [Validators.required]],
+        closingdate: ['', [Validators.required]],
+        copyMonth: ['', [Validators.required]],
+        copyYear: ['', [Validators.required]],
       }
     )
   }
 
+  handleChangePago(item: any){
+    this.checked = item.checked as boolean;
+  }
 
   dadosForm(){
     return this.sistemaForm.controls;
@@ -104,6 +117,12 @@ export class SistemaComponent {
 
     if (this.itemEdicao) {
       this.itemEdicao.Name = dados["name"].value;
+      this.itemEdicao.Month = dados["month"].value;
+      this.itemEdicao.Year = dados["year"].value;
+      this.itemEdicao.Closingdate = dados["closingdate"].value;
+      this.itemEdicao.GenerateExpensesCopy = this.checked;
+      this.itemEdicao.CopyMonth = dados["copyMonth"].value;
+      this.itemEdicao.CopyYear = dados["copyYear"].value;
       this.itemEdicao.PropName="";
       this.itemEdicao.Message="";
       this.itemEdicao.notifications=[];
@@ -120,13 +139,13 @@ export class SistemaComponent {
 
       let item = new SistemaFinanceiro();
       item.Name = dados["name"].value;
-      item.Id =0;
-      item.Month=0;
-      item.Year=0;
-      item.Closingdate=0;
-      item.GenerateExpensesCopy=true;
-      item.CopyMonth=0;
-      item.CopyYear=0;
+      item.Id = 0;
+      item.Month = dados["month"].value;
+      item.Year = dados["year"].value;
+      item.GenerateExpensesCopy = this.checked;
+      item.Closingdate = dados["closingdate"].value;
+      item.CopyMonth = dados["copyMonth"].value;
+      item.CopyYear = dados["copyYear"].value;
 
       this.sistemaService.AdicionarSistemaFinanceiro(item)
       .subscribe((response: any) => {
@@ -153,6 +172,12 @@ export class SistemaComponent {
           var dados = this.dadosForm();
 
           dados["name"].setValue(this.itemEdicao.name);
+          dados["month"].setValue(this.itemEdicao.month);
+          dados["year"].setValue(this.itemEdicao.year);
+          this.checked = this.itemEdicao.GenerateExpensesCopy;
+          dados["closingdate"].setValue(this.itemEdicao.closingdate);
+          dados["copyMonth"].setValue(this.itemEdicao.copyMonth);
+          dados["copyYear"].setValue(this.itemEdicao.copyYear);
         }
       },
       (error) => console.error(error),
