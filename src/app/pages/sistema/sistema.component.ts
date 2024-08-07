@@ -1,3 +1,4 @@
+import { UsuarioSistemaService } from './../../services/usuario-sistema.service';
 import { SistemaService } from './../../services/Sistema.service';
 import { Component } from '@angular/core';
 import { MenuService } from '../../services/menu.service';
@@ -14,13 +15,21 @@ import { ThemePalette } from '@angular/material/core';
 export class SistemaComponent {
 
   tipoTela: number = 1;// 1 listagem, 2 cadastro, 3 edição
+
   tableListSistemas: Array<any>;
   id: string;
-
   page: number = 1;
   config: any;
   paginacao: boolean = true;
   itemsPorPagina: number = 10
+
+  tableListUsuariosistema: Array<any>;
+  id2: string;
+  page2: number = 1;
+  config2: any;
+  paginacao2: boolean = true;
+  itemsPorPagina2: number = 10
+
   color: ThemePalette = 'accent';
   disabled = false;
   sistemaForm: FormGroup;
@@ -33,6 +42,15 @@ export class SistemaComponent {
       id: this.id,
       currentPage: this.page,
       itemsPerPage: this.itemsPorPagina
+
+    };
+
+    this.id2 = this.gerarIdParaConfigDePaginacao();
+
+    this.config2 = {
+      id: this.id2,
+      currentPage: this.page2,
+      itemsPerPage: this.itemsPorPagina2
 
     };
   }
@@ -65,6 +83,18 @@ export class SistemaComponent {
     this.config.currentPage = this.page;
   }
 
+  mudarItemsPorPage2() {
+    this.page2 = 1
+    this.config2.currentPage = this.page2;
+    this.config2.itemsPerPage = this.itemsPorPagina2;
+  }
+
+  mudarPage2(event: any) {
+    this.page2 = event;
+    this.config2.currentPage = this.page2;
+  }
+
+
   ListaSistemasUsuario() {
     this.itemEdicao = null;
     this.tipoTela = 1;
@@ -82,7 +112,8 @@ export class SistemaComponent {
     public menuService: MenuService,
     public formBuilder: FormBuilder,
     public sistemaService: SistemaService,
-    public authService: AuthService
+    public authService: AuthService,
+    public usuarioSistemaService: UsuarioSistemaService
   ){}
 
 
@@ -178,10 +209,62 @@ export class SistemaComponent {
           dados["closingdate"].setValue(this.itemEdicao.closingdate);
           dados["copyMonth"].setValue(this.itemEdicao.copyMonth);
           dados["copyYear"].setValue(this.itemEdicao.copyYear);
+
+          this.ListarUsuariosSistema();
         }
       },
       (error) => console.error(error),
         () => {}
       )
    }
+
+  emailUsuarioSistema: string = "";
+  emailUsuarioSistemaValid: boolean = true;
+  textValid: string = "Campo Obrigatório!";
+
+   ListarUsuariosSistema() {
+    this.usuarioSistemaService.ListarUsuariosSistema(this.itemEdicao.id)
+      .subscribe((response: Array<any>) => {
+        this.tableListUsuariosistema = response
+      })
+  }
+
+  excluir(id: number) {
+    this.usuarioSistemaService.DeleteUsuarioSistemaFinanceiro(id)
+      .subscribe((response: SistemaFinanceiro) => {
+
+        if (response) {
+          this.edicao(this.itemEdicao.Id)
+          this.emailUsuarioSistema = "";
+        }
+
+      },
+        (error) => console.error(error),
+        () => {
+
+        })
+  }
+
+
+  addUsuarioSistema() {
+    this.emailUsuarioSistemaValid = true;
+
+    if (!this.emailUsuarioSistema) {
+      this.emailUsuarioSistemaValid = false;
+    }
+    else {
+
+      this.sistemaService.CadastrarUsuarioNoSistema(this.itemEdicao.id, this.emailUsuarioSistema)
+        .subscribe((response: any) => {
+
+          if (response) {
+            this.edicao(this.itemEdicao.Id)
+            this.emailUsuarioSistema = "";
+          }
+
+        }, (error) => console.error(error),
+          () => { })
+    }
+  }
+
 }
